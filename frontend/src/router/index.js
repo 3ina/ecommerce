@@ -10,6 +10,11 @@ const routes = [
         path: '/login',
         name: 'login',
         component: () => import('../views/Login.vue'),
+    },
+    {
+        path: '/request-password',
+        name: 'requestPassword',
+        component: () => import('../views/RequestPasswordReset.vue'),
     }
 ];
 
