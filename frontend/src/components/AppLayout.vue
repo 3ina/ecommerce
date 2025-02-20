@@ -4,9 +4,9 @@
         <sidebar :class='{"-ml-[200px]" : !sidebarOpened}'/>
         <!--/   Side bar -->
         <div class="flex-1">
-            <TopHeader @toggle-sidebar="toggleSidebar">
+            <Navbar @toggle-sidebar="toggleSidebar">
 
-            </TopHeader>
+            </Navbar>
 
             <!--Content -->
                 <main>
@@ -25,20 +25,33 @@
 
 <script setup>
     import Sidebar from "./Sidebar.vue";
-    import TopHeader from "./TopHeader.vue";
-    import {ref} from "vue";
+    import Navbar from "./Navbar.vue";
+    import {onMounted, onUnmounted, ref} from "vue";
 
     const sidebarOpened = ref(true);
 
     const {title} = defineProps({
         title: String,
-    })
+    });
 
-    const emit = defineEmits(['submit'])
+    const emit = defineEmits(['submit']);
 
 
     function toggleSidebar() {
        sidebarOpened.value = !sidebarOpened.value;
+    }
+
+    onMounted(()=>{
+       handleSideBarOpened()
+        window.addEventListener("resize", handleSideBarOpened)
+    });
+
+    onUnmounted(() => {
+        window.removeEventListener("resize", handleSideBarOpened)
+    })
+
+    function handleSideBarOpened() {
+        sidebarOpened.value = window.outerWidth > 768;
     }
 </script>
 
